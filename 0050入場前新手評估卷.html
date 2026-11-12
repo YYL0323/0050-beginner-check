@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0050 新手投資人｜入場前自我評估問卷與試算工具</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+    body { font-family: 'Noto Sans TC', sans-serif; }
+    .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-16">
+
+  <!-- Header Section -->
+  <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="bg-blue-600 p-2 rounded-lg text-white font-bold">0050</div>
+        <div>
+          <h1 class="text-xl font-bold tracking-wide">新手投資人｜入場前自我評估問卷</h1>
+          <p class="text-xs text-slate-400">客製化策略規劃 ‧ 財務評估 ‧ 複利試算器</p>
+        </div>
+      </div>
+      <div class="flex space-x-2 mt-2 sm:mt-0">
+        <button onclick="saveRecord()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1">
+          <i class="fa-solid fa-floppy-disk"></i> 儲存評估
+        </button>
+        <button onclick="openHistoryModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1">
+          <i class="fa-solid fa-clock-rotate-left"></i> 歷史紀錄
+        </button>
+      </div>
+    </div>
+    <!-- Quick Nav -->
+    <nav class="bg-slate-800 border-t border-slate-700">
+      <div class="max-w-5xl mx-auto px-4 flex text-xs sm:text-sm overflow-x-auto">
+        <a href="#section-1" class="py-3 px-4 text-slate-300 hover:text-white whitespace-nowrap"><i class="fa-solid fa-clipboard-question mr-1"></i> 區塊一：自我評估</a>
+        <a href="#section-2" class="py-3 px-4 text-slate-300 hover:text-white whitespace-nowrap"><i class="fa-solid fa-calculator mr-1"></i> 區塊二：計畫整理</a>
+        <a href="#section-3" class="py-3 px-4 text-slate-300 hover:text-white whitespace-nowrap"><i class="fa-solid fa-lightbulb mr-1"></i> 區塊三：建議與策略</a>
+        <a href="#section-4" class="py-3 px-4 text-indigo-400 hover:text-indigo-300 font-medium whitespace-nowrap"><i class="fa-solid fa-chart-line mr-1"></i> 區塊四：試算小工具＆觀念補充</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8 space-y-12">
+
+    <!-- Intro Card -->
+    <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg shadow-sm">
+      <h2 class="text-blue-900 font-bold text-base mb-1 flex items-center gap-2">
+        <i class="fa-solid fa-circle-info text-blue-600"></i> 請依照真實情況填寫
+      </h2>
+      <p class="text-sm text-slate-700 leading-relaxed">
+        這份問卷不是要判斷現在是不是買進 0050 的好時機，而是幫助你確認：自己是否適合投資、能投入多少錢，以及應該採取什麼方式進場。請依照真實情況回答，不需要選擇看起來最積極或最理想的答案。
+      </p>
+    </div>
+
+    <!-- 區塊一：入場前自我評估測驗 -->
+    <section id="section-1" class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+      <div class="border-b pb-4 mb-6">
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">區塊一</span>
+        <h2 class="text-xl font-bold text-slate-900 mt-2">入場前自我評估測驗</h2>
+      </div>
+
+      <form id="quiz-form" onchange="calculateResults()">
+        <!-- Part 1: 正確認識 -->
+        <div class="mb-8">
+          <h3 class="font-bold text-slate-800 mb-3 text-base border-l-2 border-blue-500 pl-2">第一部分：我真的了解 0050 嗎？</h3>
+          <p class="text-sm text-slate-600 mb-3">以下哪些是你對 0050 的正確認識？（可複選）</p>
+          <div class="space-y-2">
+            <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="q1" value="A" class="mt-1 h-4 w-4 text-blue-600">
+              <span class="text-sm">A. 0050 是股票型 ETF，沒有保本機制，市場下跌時可能出現明顯虧損。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="q1" value="B" class="mt-1 h-4 w-4 text-blue-600">
+              <span class="text-sm">B. 0050 追蹤臺灣市值前 50 大企業的指數，雖然持有多家公司，但仍受到臺灣股市及大型權值股影響。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="q1" value="C" class="mt-1 h-4 w-4 text-blue-600">
+              <span class="text-sm">C. 台積電是 0050 的重要成分股，因此台積電的股價表現會對 0050 產生明顯影響。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="q1" value="D" class="mt-1 h-4 w-4 text-blue-600">
+              <span class="text-sm">D. 0050 會發放股利，配息是額外賺到的利息，不會影響 ETF 的淨值。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="q1" value="E" class="mt-1 h-4 w-4 text-blue-600">
+              <span class="text-sm">E. 投資 0050 的核心目標之一，是透過成分企業長期成長，追求股價增值與股利收入所組成的總報酬。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="q1" value="F" class="mt-1 h-4 w-4 text-blue-600">
+              <span class="text-sm">F. 只要長期持有 0050，就一定能獲利。</span>
+            </label>
+          </div>
+          <div class="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+            <strong>💡 小提醒：</strong><br>
+            • 正確觀念為 A、B、C、E。<br>
+            • 配息不是額外憑空產生的收益。除息時，ETF 淨值會反映配息金額而調整。<br>
+            • 評估投資成果時，應看「總報酬」，也就是股價變化加上領取的股利，而不是只看配息金額。<br>
+            • 0050 不是保本商品，長期持有也不能保證獲利。
+          </div>
+        </div>
+
+        <!-- Part 2: 風險承受 -->
+        <div class="mb-8">
+          <h3 class="font-bold text-slate-800 mb-3 text-base border-l-2 border-blue-500 pl-2">第二部分：我能承受多少風險？</h3>
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">1. 假設你投入 10 萬元買進 0050，幾個月後市場下跌，你的資產剩下 8 萬元，帳面虧損 2 萬元。你最接近哪種反應？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="A"> A. 無法接受，會想趕快賣掉。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="B"> B. 會很焦慮，每天查看但暫時不賣。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="C"> C. 雖擔心但無急用錢願意繼續持有。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="D"> D. 可以接受，甚至考慮加碼。</label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">2. 如果你的投資金額增加到 50 萬元，同樣下跌 20%，帳面虧損就會變成 10 萬元。你能接受嗎？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="A"> A. 無法接受，會嚴重影響生活。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="B"> B. 很難接受，心理壓力極大。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="C"> C. 短期不用這筆錢就可以承受。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="D"> D. 可以接受，不影響生活與計畫。</label>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <p class="text-sm font-medium text-slate-700 mb-2">3. 假設市場持續低迷，投資帳面虧損長達一年，你可能會受到什麼影響？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="A"> A. 影響生活，需動用生活費。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="B"> B. 明顯影響睡眠、情緒或品質。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="C"> C. 感到壓力，但仍能遵守原計畫。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="D"> D. 不太影響生活，理性看待波動。</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 3: 投資目標 -->
+        <div class="mb-8">
+          <h3 class="font-bold text-slate-800 mb-3 text-base border-l-2 border-blue-500 pl-2">第三部分：我的投資目標是什麼？</h3>
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">4. 你希望透過 0050 達成什麼目的？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="A"> A. 買低賣高，賺取短期價差。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="B"> B. 持有 3～5 年，累積資金。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="C"> C. 持有 5～10 年，追求資產長期成長。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="D"> D. 退休/長期規劃，預計持有 10 年以上。</label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">5. 如果買進 0050 後，帳面獲利達到 20%，你會怎麼做？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q6" value="A"> A. 全部賣出，獲利放入口袋。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q6" value="B"> B. 賣出一部分，保留部分持股。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q6" value="C"> C. 不設固定獲利目標，繼續長期持有。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q6" value="D"> D. 除非有資金需求或條件改變否則不賣。</label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">6. 這筆投資資金，最早什麼時候可能需要使用？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q7" value="A"> A. 一年內。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q7" value="B"> B. 1～3 年。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q7" value="C"> C. 3～5 年。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q7" value="D"> D. 5～10 年。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q7" value="E"> E. 10 年以上，無短期計畫。</label>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <p class="text-sm font-medium text-slate-700 mb-2">7. 如果剛好在你需要用錢的時候，0050 正處於下跌狀態，你能否延後提領？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q8" value="A"> A. 不行，有明確用途無法延後。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q8" value="B"> B. 可以延後 6～12 個月。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q8" value="C"> C. 可以延後 2～3 年。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q8" value="D"> D. 無明確期限，可等待恢復。</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 4: 閒錢與財務狀況 -->
+        <div class="mb-8">
+          <h3 class="font-bold text-slate-800 mb-3 text-base border-l-2 border-blue-500 pl-2">第四部分：我真的有閒錢可以投資嗎？</h3>
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">8. 你目前是否有緊急預備金？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q9" value="A"> A. 沒有，存款不足支應突發支出。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q9" value="B"> B. 有，約可支應 3 個月生活費。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q9" value="C"> C. 有，約可支應 6 個月生活費。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q9" value="D"> D. 有，約可支應 9～12 個月以上。</label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">9. 你目前有沒有需要優先處理的債務？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q10" value="A"> A. 沒有負債。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q10" value="B"> B. 有負債，但利率低且不影響生活。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q10" value="C"> C. 有信用卡循環/高利貸款(>5%)。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q10" value="D"> D. 每月還款已讓生活費感到吃緊。</label>
+            </div>
+          </div>
+
+          <!-- 金額填寫區 -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mt-4 space-y-4">
+            <p class="text-sm font-bold text-slate-800"><i class="fa-solid fa-calculator text-blue-600"></i> 請填寫以下金額 (元)：</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <label class="block text-slate-600 text-xs mb-1">每月基本生活費</label>
+                <input type="number" id="monthly-expense" placeholder="例如：30000" class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+              <div>
+                <label class="block text-slate-700 font-bold text-xs mb-1 text-blue-700">
+                  目前可隨時動用的「現金存款」總額（包含緊急預備金在內的所有活存/流動資金）
+                </label>
+                <input type="number" id="total-savings" placeholder="例如：200000" class="w-full p-2 border border-blue-400 rounded-md focus:ring-2 focus:ring-blue-500 outline-none bg-blue-50/40">
+              </div>
+              <div>
+                <label class="block text-slate-600 text-xs mb-1">已知的近期支出 (含本期清償全額卡費、學費等)</label>
+                <input type="number" id="recent-expenses" placeholder="例如：30000" class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+              <div>
+                <label class="block text-slate-600 text-xs mb-1">每月穩定收入</label>
+                <input type="number" id="monthly-income" placeholder="例如：50000" class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 5: 進場偏好 -->
+        <div>
+          <h3 class="font-bold text-slate-800 mb-3 text-base border-l-2 border-blue-500 pl-2">第五部分：我適合怎麼進場？</h3>
+          <div class="mb-5">
+            <p class="text-sm font-medium text-slate-700 mb-2">10. 如果確認自己有可投資的閒錢，你比較希望採取哪種方式？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q11" value="A"> A. 一次投入全部資金。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q11" value="B"> B. 分成數次，逐步投入。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q11" value="C"> C. 每個月固定投入一筆錢。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q11" value="D"> D. 保留部分資金，逢低再投入。</label>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-sm font-medium text-slate-700 mb-2">11. 如果買進後，市場繼續下跌，你會怎麼做？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q12" value="A"> A. 暫停所有買進，等待市場穩定。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q12" value="B"> B. 按照原本設定日期，繼續定期投入。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q12" value="C"> C. 保留部分預算，依計畫分批投入。</label>
+              <label class="p-3 border rounded-lg hover:bg-slate-50 flex items-center gap-2 cursor-pointer"><input type="radio" name="q12" value="D"> D. 到時候看市場狀況，臨時決定。</label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- 區塊二：整理我的投資計畫 -->
+    <section id="section-2" class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+      <div class="border-b pb-4 mb-6">
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">區塊二</span>
+        <h2 class="text-xl font-bold text-slate-900 mt-2">整理我的投資計畫與預算計算</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 試算結果卡片 -->
+        <div class="bg-slate-900 text-white p-6 rounded-xl space-y-4">
+          <h3 class="text-lg font-bold border-b border-slate-700 pb-2 text-blue-400">一分鐘試算公式結果</h3>
+          <div class="flex justify-between items-center text-sm">
+            <span class="text-slate-400">可隨時動用現金存款總額 (含預備金)：</span>
+            <span class="font-bold text-base" id="res-total-savings">NT$ 0</span>
+          </div>
+          <div class="flex justify-between items-center text-sm">
+            <span class="text-slate-400">- 近期預定支出：</span>
+            <span class="text-red-400 font-semibold" id="res-recent-exp">- NT$ 0</span>
+          </div>
+          <div class="flex justify-between items-center text-sm">
+            <span class="text-slate-400">- 緊急預備金 (依選擇扣除)：</span>
+            <span class="text-red-400 font-semibold" id="res-emergency-fund">- NT$ 0</span>
+          </div>
+          <div class="border-t border-slate-700 pt-3 flex justify-between items-center">
+            <span class="text-base font-bold text-blue-300">🎯 0050 專用投資預算：</span>
+            <span class="text-2xl font-extrabold text-green-400" id="res-invest-budget">NT$ 0</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">
+            * 注意：緊急預備金是生活安全網，不能因為想逢低買進就挪用。
+          </p>
+        </div>
+
+        <!-- 計畫清單整理 -->
+        <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-3 text-sm">
+          <h3 class="text-base font-bold text-slate-800 border-b pb-2">第六部分：我的投資計畫清單</h3>
+          <div>
+            <span class="text-slate-500 font-medium">一、投資目標：</span>
+            <span id="plan-goal" class="font-semibold text-slate-800">尚未填寫</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-medium">二、預計持有時間：</span>
+            <span id="plan-horizon" class="font-semibold text-slate-800">尚未填寫</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-medium">三、承受虧損能力：</span>
+            <span id="plan-risk" class="font-semibold text-slate-800">尚未評估</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-medium">四、生活安全預備金：</span>
+            <span id="plan-emergency" class="font-semibold text-blue-600">NT$ 0</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-medium">五、高利率債務狀況：</span>
+            <span id="plan-debt" class="font-semibold text-slate-800">未填寫</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 區塊三：給予投資人的建議與判讀 (優化後的第八部分) -->
+    <section id="section-3" class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+      <div class="border-b pb-4 mb-6">
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">區塊三</span>
+        <h2 class="text-xl font-bold text-slate-900 mt-2">給予投資人的建議與專屬策略導引</h2>
+      </div>
+
+      <!-- 燈號診斷狀態卡片 -->
+      <div id="light-status-card" class="mb-8 p-5 rounded-xl border flex items-start gap-4 bg-slate-50 border-slate-200">
+        <div id="light-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-300 text-slate-700 whitespace-nowrap">
+          未評估
+        </div>
+        <div>
+          <h3 id="light-title" class="font-bold text-base text-slate-800">請填寫問卷與金額</h3>
+          <p id="light-desc" class="text-sm text-slate-600 mt-1">系統將根據您的財務狀況與問卷選項，自動評估進場燈號與推薦策略。</p>
+        </div>
+      </div>
+
+      <!-- 第八部分：個人化進場策略導引 -->
+      <div>
+        <h3 class="font-bold text-slate-800 mb-4 text-base flex items-center gap-2">
+          <i class="fa-solid fa-chess-board text-blue-600"></i> 第八部分：你的 0050 個人化進場策略
+        </h3>
+
+        <div id="strategy-container" class="space-y-4">
+          <!-- 預設提示 -->
+          <div class="p-6 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-center text-slate-500 text-sm">
+            請完成上述問卷與財務數據輸入，系統將在此顯示算好的專屬進場執行方案。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 區塊四：試算小工具＆觀念補充 (紫色系主題) -->
+    <section id="section-4" class="bg-white rounded-xl p-6 border border-indigo-100 card-shadow">
+      <div class="border-b border-indigo-100 pb-4 mb-6">
+        <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded">區塊四</span>
+        <h2 class="text-xl font-bold text-indigo-950 mt-2">試算小工具＆觀念補充</h2>
+      </div>
+
+      <!-- 0050 複利投資試算器 -->
+      <div class="mb-10 bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg font-bold text-indigo-300 mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-calculator"></i> 0050 長期總報酬複利試算工具
+        </h3>
+        <p class="text-xs text-indigo-200 mb-6">根據歷史長期報酬趨勢進行估算（預設參考年化總報酬率 7%～8%）。</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-slate-800">
+          <div>
+            <label class="block text-xs font-medium text-indigo-200 mb-1">起始投入金額 (元)</label>
+            <input type="number" id="calc-initial" placeholder="自動帶入專用預算" class="w-full p-2 rounded border focus:ring-2 focus:ring-indigo-400 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-indigo-200 mb-1">每月定期定額金額 (元)</label>
+            <input type="number" id="calc-monthly" placeholder="例如：5000" class="w-full p-2 rounded border focus:ring-2 focus:ring-indigo-400 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-indigo-200 mb-1">預期年化總報酬率 (%)</label>
+            <input type="number" id="calc-rate" value="7" step="0.5" class="w-full p-2 rounded border focus:ring-2 focus:ring-indigo-400 text-sm">
+          </div>
+        </div>
+
+        <button onclick="runCompoundCalc()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg font-bold text-sm transition mb-6">
+          開始試算資產成長
+        </button>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="space-y-3 text-sm">
+            <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+              <span class="text-indigo-300 text-xs">5 年後預估總資產：</span>
+              <div class="text-xl font-bold text-indigo-200" id="calc-res-5y">NT$ 0</div>
+            </div>
+            <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+              <span class="text-indigo-300 text-xs">10 年後預估總資產：</span>
+              <div class="text-xl font-bold text-emerald-400" id="calc-res-10y">NT$ 0</div>
+            </div>
+            <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+              <span class="text-indigo-300 text-xs">20 年後預估總資產：</span>
+              <div class="text-xl font-bold text-amber-300" id="calc-res-20y">NT$ 0</div>
+            </div>
+          </div>
+          <div class="bg-indigo-950/80 p-3 rounded-lg border border-indigo-800 h-64">
+            <canvas id="compoundChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 除息與填息觀念補充 -->
+      <div class="space-y-4">
+        <h3 class="font-bold text-indigo-950 text-base border-l-4 border-indigo-600 pl-3">
+          💡 核心觀念補充：正確理解除息與填息
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100">
+            <h4 class="font-bold text-indigo-900 text-sm mb-2 flex items-center gap-1">
+              <i class="fa-solid fa-scissors text-indigo-600"></i> 什麼是除息？
+            </h4>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              當 ETF 配息給投資人時，發放的資金是直接從 ETF 的淨值中扣除。例如：配息前淨值為 150 元，宣布配息 3 元，除息當天開盤參考價就會變成 <strong>147 元</strong>。配息並不是「憑空產生的利息」，你的總資產在除息當下並沒有因此暴增。
+            </p>
+          </div>
+
+          <div class="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100">
+            <h4 class="font-bold text-indigo-900 text-sm mb-2 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-trend-up text-indigo-600"></i> 什麼是填息？
+            </h4>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              除息後股價由 147 元重新漲回 150 元的過程，稱為「填息」。唯有完成填息，領到的 3 元配息才算真正入袋的收益。若股價持續下跌，則稱為「貼息」。因此，投資 0050 的重點在於成分股長期能否持續成長帶動股價回升與超越。
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-indigo-900 text-indigo-100 p-4 rounded-xl text-xs space-y-2 border border-indigo-800">
+          <p class="font-bold text-indigo-300 text-sm">📌 新手總結：為什麼評估 0050 要看「總報酬」？</p>
+          <p>
+            <strong>總報酬 = 股價漲跌 (資本利得) + 股利收入 (配息)</strong>
+          </p>
+          <p class="text-indigo-200">
+            只看配息金額容易產生「領高息就是賺錢」的誤解。真正的資產累積，仰賴的是 0050 持有之台灣前 50 大企業長期營運獲利的成長，推升 ETF 淨值與股價持續向上。
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 歷史紀錄 Modal -->
+  <div id="history-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-slate-800 text-base">歷史評估紀錄</h3>
+        <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div id="history-list" class="space-y-3 overflow-y-auto flex-1 text-sm">
+        <!-- JS 動態插入 -->
+      </div>
+      <div class="border-t pt-3 flex justify-between items-center">
+        <div class="flex gap-2">
+          <button onclick="exportJSON()" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded font-medium flex items-center gap-1">
+            <i class="fa-solid fa-file-export"></i> 匯出完整 JSON
+          </button>
+          <button onclick="exportCSV()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded font-medium flex items-center gap-1">
+            <i class="fa-solid fa-file-csv"></i> 匯出 Excel (CSV)
+          </button>
+        </div>
+        <button onclick="clearHistory()" class="text-xs text-red-600 hover:underline">清除全部紀錄</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let compoundChart = null;
+
+    // 題目與選項對照字典 (用於紀錄與匯出詳細文字)
+    const QUESTION_LABELS = {
+      q1: {
+        title: "第一部分_0050正確認識(複選)",
+        options: {
+          A: "A. 是股票型ETF，無保本機制，下跌可能虧損",
+          B: "B. 追蹤前50大企業，受台股及大型權值股影響",
+          C: "C. 台積電為重要成分股，股價表現影響明顯",
+          D: "D. 配息是額外賺到的利息，不會影響淨值(錯誤觀念)",
+          E: "E. 核心目標為追求股價增值與股利組成的總報酬",
+          F: "F. 只要長期持有就一定能獲利(錯誤觀念)"
+        }
+      },
+      q2: {
+        title: "第二部分_1.投入10萬虧損2萬的反應",
+        options: {
+          A: "A. 無法接受，會想趕快賣掉",
+          B: "B. 會很焦慮，每天查看但暫時不賣",
+          C: "C. 雖擔心但無急用錢願意繼續持有",
+          D: "D. 可以接受，甚至考慮加碼"
+        }
+      },
+      q3: {
+        title: "第二部分_2.投入50萬虧損10萬能否接受",
+        options: {
+          A: "A. 無法接受，會嚴重影響生活",
+          B: "B. 很難接受，心理壓力極大",
+          C: "C. 短期不用這筆錢就可以承受",
+          D: "D. 可以接受，不影響生活與計畫"
+        }
+      },
+      q4: {
+        title: "第二部分_3.帳面虧損長達一年的影響",
+        options: {
+          A: "A. 影響生活，需動用生活費",
+          B: "B. 明顯影響睡眠、情緒或品質",
+          C: "C. 感到壓力，但仍能遵守原計畫",
+          D: "D. 不太影響生活，理性看待波動"
+        }
+      },
+      q5: {
+        title: "第三部分_4.希望達成的投資目的",
+        options: {
+          A: "A. 買低賣高，賺取短期價差",
+          B: "B. 持有 3～5 年，累積資金",
+          C: "C. 持有 5～10 年，追求資產長期成長",
+          D: "D. 退休/長期規劃，預計持有 10 年以上"
+        }
+      },
+      q6: {
+        title: "第三部分_5.帳面獲利達20%的做法",
+        options: {
+          A: "A. 全部賣出，獲利放入口袋",
+          B: "B. 賣出一部分，保留部分持股",
+          C: "C. 不設固定獲利目標，繼續長期持有",
+          D: "D. 除非有資金需求或條件改變否則不賣"
+        }
+      },
+      q7: {
+        title: "第三部分_6.資金最早可能需要使用的時間",
+        options: {
+          A: "A. 一年內",
+          B: "B. 1～3 年",
+          C: "C. 3～5 年",
+          D: "D. 5～10 年",
+          E: "E. 10 年以上，無短期計畫"
+        }
+      },
+      q8: {
+        title: "第三部分_7.需用錢時遇下跌能否延後提領",
+        options: {
+          A: "A. 不行，有明確用途無法延後",
+          B: "B. 可以延後 6～12 個月",
+          C: "C. 可以延後 2～3 年",
+          D: "D. 無明確期限，可等待恢復"
+        }
+      },
+      q9: {
+        title: "第四部分_8.目前是否有緊急預備金",
+        options: {
+          A: "A. 沒有，存款不足支應突發支出",
+          B: "B. 有，約可支應 3 個月生活費",
+          C: "C. 有，約可支應 6 個月生活費",
+          D: "D. 有，約可支應 9～12 個月以上"
+        }
+      },
+      q10: {
+        title: "第四部分_9.目前是否有需優先處理的債務",
+        options: {
+          A: "A. 沒有負債",
+          B: "B. 有負債，但利率低且不影響生活",
+          C: "C. 有信用卡循環/高利貸款(>5%)",
+          D: "D. 每月還款已讓生活費感到吃緊"
+        }
+      },
+      q11: {
+        title: "第五部分_10.偏好的進場資金投入方式",
+        options: {
+          A: "A. 一次投入全部資金",
+          B: "B. 分成數次，逐步投入",
+          C: "C. 每個月固定投入一筆錢",
+          D: "D. 保留部分資金，逢低再投入"
+        }
+      },
+      q12: {
+        title: "第五部分_11.買進後市場繼續下跌的做法",
+        options: {
+          A: "A. 暫停所有買進，等待市場穩定",
+          B: "B. 按照原本設定日期，繼續定期投入",
+          C: "C. 保留部分預算，依計畫分批投入",
+          D: "D. 到時候看市場狀況，臨時決定"
+        }
+      }
+    };
+
+    // 初始化
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateResults();
+      initChart();
+    });
+
+    // 取得完整表單作答資料
+    function getFullFormData() {
+      const form = document.getElementById('quiz-form');
+      const getRadio = (name) => {
+        const selected = form.querySelector(`input[name="${name}"]:checked`);
+        return selected ? selected.value : null;
+      };
+      const getCheckboxes = (name) => {
+        return Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+      };
+
+      const answers = {};
+      // 複選題 q1
+      const q1Vals = getCheckboxes('q1');
+      answers[QUESTION_LABELS.q1.title] = q1Vals.length > 0 
+        ? q1Vals.map(v => QUESTION_LABELS.q1.options[v]) 
+        : ["未作答"];
+
+      // 單選題 q2 ~ q12
+      for (let i = 2; i <= 12; i++) {
+        const qKey = `q${i}`;
+        const val = getRadio(qKey);
+        const qMeta = QUESTION_LABELS[qKey];
+        answers[qMeta.title] = val ? qMeta.options[val] : "未作答";
+      }
+
+      const exp = parseFloat(document.getElementById('monthly-expense').value) || 0;
+      const savings = parseFloat(document.getElementById('total-savings').value) || 0;
+      const recent = parseFloat(document.getElementById('recent-expenses').value) || 0;
+      const income = parseFloat(document.getElementById('monthly-income').value) || 0;
+
+      const q9Val = getRadio('q9');
+      let emergencyMonths = 0;
+      if (q9Val === 'B') emergencyMonths = 3;
+      if (q9Val === 'C') emergencyMonths = 6;
+      if (q9Val === 'D') emergencyMonths = 12;
+
+      const emergencyFund = exp * emergencyMonths;
+      const investBudget = Math.max(0, savings - recent - emergencyFund);
+
+      return {
+        評估時間: new Date().toLocaleString('zh-TW'),
+        診斷燈號結果: document.getElementById('light-badge').innerText,
+        財務數字明細: {
+          "每月基本生活費(元)": exp,
+          "可隨時動用現金存款總額_含預備金(元)": savings,
+          "已知近期支出(元)": recent,
+          "每月穩定收入(元)": income,
+          "預留緊急預備金(元)": emergencyFund,
+          "0050專用投資預算(元)": investBudget
+        },
+        問卷各題作答紀錄: answers
+      };
+    }
+
+    // 計算問卷與金額
+    function calculateResults() {
+      const exp = parseFloat(document.getElementById('monthly-expense').value) || 0;
+      const savings = parseFloat(document.getElementById('total-savings').value) || 0;
+      const recent = parseFloat(document.getElementById('recent-expenses').value) || 0;
+
+      const form = document.getElementById('quiz-form');
+      const getRadio = (name) => {
+        const selected = form.querySelector(`input[name="${name}"]:checked`);
+        return selected ? selected.value : null;
+      };
+
+      const q9Val = getRadio('q9');
+      let emergencyMonths = 0;
+      if (q9Val === 'B') emergencyMonths = 3;
+      if (q9Val === 'C') emergencyMonths = 6;
+      if (q9Val === 'D') emergencyMonths = 12;
+
+      const emergencyFund = exp * emergencyMonths;
+      const investBudget = Math.max(0, savings - recent - emergencyFund);
+
+      // 更新畫面 UI (區塊二)
+      document.getElementById('res-total-savings').innerText = `NT$ ${savings.toLocaleString()}`;
+      document.getElementById('res-recent-exp').innerText = `- NT$ ${recent.toLocaleString()}`;
+      document.getElementById('res-emergency-fund').innerText = `- NT$ ${emergencyFund.toLocaleString()}`;
+      document.getElementById('res-invest-budget').innerText = `NT$ ${investBudget.toLocaleString()}`;
+
+      document.getElementById('plan-emergency').innerText = `NT$ ${emergencyFund.toLocaleString()} (${emergencyMonths}個月)`;
+      document.getElementById('calc-initial').placeholder = `自動帶入預算 (NT$ ${investBudget.toLocaleString()})`;
+
+      // 計畫細項文字更新
+      const q5Map = { 'A': '短線價差', 'B': '3~5年累積資金', 'C': '5~10年長期成長', 'D': '10年以上退休規劃' };
+      const q7Map = { 'A': '1年內', 'B': '1~3年', 'C': '3~5年', 'D': '5~10年', 'E': '10年以上' };
+      const q2Map = { 'A': '極低(想賣)', 'B': '偏低(焦慮)', 'C': '中等(續抱)', 'D': '偏高(加碼)' };
+      const q10Map = { 'A': '無負債', 'B': '低利負債', 'C': '高利負債', 'D': '還款吃緊' };
+
+      document.getElementById('plan-goal').innerText = q5Map[getRadio('q5')] || '未選擇';
+      document.getElementById('plan-horizon').innerText = q7Map[getRadio('q7')] || '未選擇';
+      document.getElementById('plan-risk').innerText = q2Map[getRadio('q2')] || '未選擇';
+      document.getElementById('plan-debt').innerText = q10Map[getRadio('q10')] || '未選擇';
+
+      // 燈號診斷與策略導引
+      updateLightAndStrategy({
+        q2: getRadio('q2'),
+        q3: getRadio('q3'),
+        q4: getRadio('q4'),
+        q5: getRadio('q5'),
+        q7: getRadio('q7'),
+        q9: q9Val,
+        q10: getRadio('q10'),
+        budget: investBudget,
+        savings: savings
+      });
+
+      // 連動試算器
+      runCompoundCalc(investBudget);
+    }
+
+    // 更新燈號與策略
+    function updateLightAndStrategy(data) {
+      const card = document.getElementById('light-status-card');
+      const badge = document.getElementById('light-badge');
+      const title = document.getElementById('light-title');
+      const desc = document.getElementById('light-desc');
+      const stratContainer = document.getElementById('strategy-container');
+
+      if (!data.savings && !data.q10) {
+        card.className = "mb-8 p-5 rounded-xl border flex items-start gap-4 bg-slate-50 border-slate-200";
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700 whitespace-nowrap";
+        badge.innerText = "未評估";
+        title.innerText = "請填寫問卷與金額";
+        desc.innerText = "完成資料填寫後，系統將在此提供專屬燈號與執行方案。";
+        stratContainer.innerHTML = `<div class="p-6 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-center text-slate-500 text-sm">請完成問卷與數據填寫以顯示專屬策略。</div>`;
+        return;
+      }
+
+      let light = 'green';
+      let reasons = [];
+
+      if (data.q10 === 'C' || data.q10 === 'D') {
+        light = 'red';
+        reasons.push('存在高利率債務或還款壓力較大');
+      }
+      if (data.q9 === 'A') {
+        light = 'red';
+        reasons.push('缺乏基本緊急預備金');
+      }
+      if (data.budget <= 0) {
+        light = 'red';
+        reasons.push('專用投資預算不足或為負');
+      }
+      if (data.q2 === 'A' && data.q3 === 'A') {
+        light = 'red';
+        reasons.push('風險承受度極低，小幅波動即影響生活');
+      }
+
+      if (light !== 'red') {
+        if (data.q5 === 'A') {
+          light = 'yellow';
+          reasons.push('偏向短線價差操作（0050 適合長期成長）');
+        }
+        if (data.q7 === 'A' || data.q7 === 'B') {
+          light = 'yellow';
+          reasons.push('資金預計 3 年內需使用，面臨短期波動風險');
+        }
+        if (data.q9 === 'B') {
+          light = 'yellow';
+          reasons.push('預備金僅約 3 個月，建議先增強安全網');
+        }
+      }
+
+      if (light === 'red') {
+        card.className = "mb-8 p-5 rounded-xl border flex items-start gap-4 bg-red-50 border-red-200";
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-red-600 text-white whitespace-nowrap";
+        badge.innerText = "🔴 紅燈：暫緩進場";
+        title.innerText = "建議先建立財務安全網";
+        desc.innerText = `原因：${reasons.join('；')}。請先優先償還高利債務並存足預備金。`;
+      } else if (light === 'yellow') {
+        card.className = "mb-8 p-5 rounded-xl border flex items-start gap-4 bg-amber-50 border-amber-200";
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-white whitespace-nowrap";
+        badge.innerText = "🟡 黃燈：調整目標與金額";
+        title.innerText = "建議調整投資規劃後再投入";
+        desc.innerText = `提醒：${reasons.join('；')}。建議降低單次投入規模或拉長分批期間。`;
+      } else {
+        card.className = "mb-8 p-5 rounded-xl border flex items-start gap-4 bg-emerald-50 border-emerald-200";
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white whitespace-nowrap";
+        badge.innerText = "🟢 綠燈：安心規劃進場";
+        title.innerText = "財務基礎穩固，可開始執行分批計畫";
+        desc.innerText = "無高利債務且已備妥預備金，資金具備中長期持有條件。";
+      }
+
+      renderStrategyPlans(light, data.budget);
+    }
+
+    function renderStrategyPlans(light, budget) {
+      const container = document.getElementById('strategy-container');
+      const formattedBudget = budget.toLocaleString();
+      const p1 = Math.round(budget * 0.2).toLocaleString();
+      const p2 = Math.round(budget * 0.05).toLocaleString();
+
+      if (light === 'red') {
+        container.innerHTML = `
+          <div class="p-5 bg-red-50 rounded-xl border border-red-200 text-sm space-y-2 text-red-900">
+            <h4 class="font-bold text-base flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-red-600"></i> 目前不建議直接買進 0050</h4>
+            <p>優先執行步驟：</p>
+            <ol class="list-decimal pl-5 space-y-1 text-xs">
+              <li>清償信用卡循環利息或高利貸款 (利率 > 5%)。</li>
+              <li>累積至少 3 至 6 個月基本生活預備金。</li>
+              <li>待財務基礎穩固後重新進行本問卷評估。</li>
+            </ol>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="bg-slate-900 text-white p-4 rounded-xl flex justify-between items-center text-sm shadow">
+          <div>
+            <span class="text-xs text-slate-400 block">算出的 0050 專用投資預算</span>
+            <span class="text-xl font-bold text-green-400">NT$ ${formattedBudget}</span>
+          </div>
+          <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">自動計算配對</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl border bg-white hover:border-blue-500 transition space-y-3 relative flex flex-col justify-between shadow-sm">
+            <div>
+              <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">方案 A：四分法動態分批</span>
+              <h4 class="font-bold text-slate-800 text-sm mt-2">穩健新手推薦</h4>
+              <p class="text-xs text-slate-600 mt-1">適合資金 10 萬以上、風險承受中等。</p>
+              <ul class="text-xs text-slate-700 space-y-1.5 mt-3 pt-3 border-t">
+                <li>• <strong>分批投入：</strong>將預算的 80% (約 NT$ ${Math.round(budget*0.8).toLocaleString()}) 分 4 期，每期扣款 <strong>NT$ ${p1}</strong>。</li>
+                <li>• <strong>紀律扣款：</strong>固定每月 15 日扣款，不猜測高低點。</li>
+                <li>• <strong>預備應變金：</strong>保留 20% (約 NT$ ${Math.round(budget*0.2).toLocaleString()}) 當作心理防護罩。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border bg-white hover:border-blue-500 transition space-y-3 relative flex flex-col justify-between shadow-sm">
+            <div>
+              <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">方案 B：微型定期定額</span>
+              <h4 class="font-bold text-slate-800 text-sm mt-2">高度防禦推薦</h4>
+              <p class="text-xs text-slate-600 mt-1">適合波動較敏感、心理壓力大者。</p>
+              <ul class="text-xs text-slate-700 space-y-1.5 mt-3 pt-3 border-t">
+                <li>• <strong>規模砍半：</strong>將總投入縮小至 NT$ ${Math.round(budget*0.5).toLocaleString()}。</li>
+                <li>• <strong>拉長次數：</strong>拆為 6 至 10 個月，每月僅投入 <strong>NT$ ${p2}</strong>。</li>
+                <li>• <strong>熟悉波動：</strong>用小金額建立市場耐受度與信心。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border bg-white hover:border-blue-500 transition space-y-3 relative flex flex-col justify-between shadow-sm">
+            <div>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">方案 C：單筆與定期並行</span>
+              <h4 class="font-bold text-slate-800 text-sm mt-2">小額高效啟動</h4>
+              <p class="text-xs text-slate-600 mt-1">適合預算較小 (3萬內) 且抗壓高者。</p>
+              <ul class="text-xs text-slate-700 space-y-1.5 mt-3 pt-3 border-t">
+                <li>• <strong>無需過度拆分：</strong>金額較小無需拆太細，避免手續費與過度繁瑣。</li>
+                <li>• <strong>分兩期進場：</strong>分為 2 個月直接投入完成。</li>
+                <li>• <strong>長期持有：</strong>確保該資金 3~5 年完全無急用需求。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function runCompoundCalc(overrideInit) {
+      let init = parseFloat(document.getElementById('calc-initial').value);
+      if (isNaN(init)) {
+        const budgetText = document.getElementById('res-invest-budget').innerText.replace(/[^\d]/g, '');
+        init = parseFloat(budgetText) || 0;
+      }
+      const monthly = parseFloat(document.getElementById('calc-monthly').value) || 0;
+      const rate = (parseFloat(document.getElementById('calc-rate').value) || 7) / 100;
+
+      const getFV = (years) => {
+        let total = init;
+        const r = rate / 12;
+        const months = years * 12;
+        for (let i = 0; i < months; i++) {
+          total = total * (1 + r) + monthly;
+        }
+        return Math.round(total);
+      };
+
+      const fv5 = getFV(5);
+      const fv10 = getFV(10);
+      const fv20 = getFV(20);
+
+      document.getElementById('calc-res-5y').innerText = `NT$ ${fv5.toLocaleString()}`;
+      document.getElementById('calc-res-10y').innerText = `NT$ ${fv10.toLocaleString()}`;
+      document.getElementById('calc-res-20y').innerText = `NT$ ${fv20.toLocaleString()}`;
+
+      updateChart(init, monthly, rate);
+    }
+
+    function initChart() {
+      const ctx = document.getElementById('compoundChart').getContext('2d');
+      compoundChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['0年', '5年', '10年', '15年', '20年'],
+          datasets: [{
+            label: '預估資產總額',
+            data: [0, 0, 0, 0, 0],
+            borderColor: '#a855f7',
+            backgroundColor: 'rgba(168, 85, 247, 0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', font: { size: 10 } } }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+    }
+
+    function updateChart(init, monthly, rate) {
+      if (!compoundChart) return;
+      const dataPoints = [0, 5, 10, 15, 20].map(years => {
+        let total = init;
+        const r = rate / 12;
+        for (let i = 0; i < years * 12; i++) {
+          total = total * (1 + r) + monthly;
+        }
+        return Math.round(total);
+      });
+      compoundChart.data.datasets[0].data = dataPoints;
+      compoundChart.update();
+    }
+
+    // 儲存完整作答與金額紀錄
+    function saveRecord() {
+      const fullRecord = getFullFormData();
+      let history = JSON.parse(localStorage.getItem('0050_records_v2') || '[]');
+      history.unshift(fullRecord);
+      localStorage.setItem('0050_records_v2', JSON.stringify(history));
+
+      alert('完整評估紀錄（包含所有題目作答與財務明細）已成功儲存！');
+    }
+
+    function openHistoryModal() {
+      const list = document.getElementById('history-list');
+      let history = JSON.parse(localStorage.getItem('0050_records_v2') || '[]');
+      if (history.length === 0) {
+        list.innerHTML = `<div class="text-slate-400 text-center py-6">尚無歷史紀錄，請先點擊上方「儲存評估」按鈕。</div>`;
+      } else {
+        list.innerHTML = history.map((item, idx) => {
+          const budget = item.財務數字明細["0050專用投資預算(元)"].toLocaleString();
+          const ansHtml = Object.entries(item.問卷各題作答紀錄).map(([qTitle, qAns]) => {
+            const ansText = Array.isArray(qAns) ? qAns.join(' / ') : qAns;
+            return `<div class="text-xs text-slate-600"><span class="font-medium text-slate-800">${qTitle}：</span>${ansText}</div>`;
+          }).join('');
+
+          return `
+            <details class="p-3 bg-slate-50 border rounded-lg group">
+              <summary class="flex justify-between items-center cursor-pointer list-none">
+                <div>
+                  <div class="text-xs text-slate-500">${item.評估時間} <span class="ml-2 px-1.5 py-0.5 bg-slate-200 rounded text-slate-700 font-bold">${item.診斷燈號結果}</span></div>
+                  <div class="font-bold text-slate-800 mt-1">專用投資預算：NT$ ${budget}</div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-blue-600 group-open:hidden">展開作答明細 ▾</span>
+                  <span class="text-xs text-blue-600 hidden group-open:inline">收合明細 ▴</span>
+                  <button onclick="event.preventDefault(); deleteRecord(${idx})" class="text-red-500 hover:text-red-700 text-xs p-1" title="刪除此筆"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-200 space-y-1.5">
+                <div class="text-xs font-bold text-blue-800 mb-1">【財務數據】</div>
+                <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 mb-2 bg-white p-2 rounded border">
+                  <div>現金存款總額：NT$ ${item.財務數字明細["可隨時動用現金存款總額_含預備金(元)"].toLocaleString()}</div>
+                  <div>每月基本生活費：NT$ ${item.財務數字明細["每月基本生活費(元)"].toLocaleString()}</div>
+                  <div>已知近期支出：NT$ ${item.財務數字明細["已知近期支出(元)"].toLocaleString()}</div>
+                  <div>預留緊急預備金：NT$ ${item.財務數字明細["預留緊急預備金(元)"].toLocaleString()}</div>
+                </div>
+                <div class="text-xs font-bold text-blue-800 mb-1">【各題作答結果】</div>
+                ${ansHtml}
+              </div>
+            </details>
+          `;
+        }).join('');
+      }
+      document.getElementById('history-modal').classList.remove('hidden');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('history-modal').classList.add('hidden');
+    }
+
+    function deleteRecord(idx) {
+      let history = JSON.parse(localStorage.getItem('0050_records_v2') || '[]');
+      history.splice(idx, 1);
+      localStorage.setItem('0050_records_v2', JSON.stringify(history));
+      openHistoryModal();
+    }
+
+    function clearHistory() {
+      if (confirm('確定要清除所有歷史紀錄嗎？')) {
+        localStorage.removeItem('0050_records_v2');
+        openHistoryModal();
+      }
+    }
+
+    // 匯出完整 JSON (若尚未按儲存，也會自動把目前畫面填寫內容一起匯出)
+    function exportJSON() {
+      let history = JSON.parse(localStorage.getItem('0050_records_v2') || '[]');
+      if (history.length === 0) {
+        history = [getFullFormData()];
+      }
+      const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `0050_完整評估紀錄_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+    }
+
+    // 額外提供：一鍵匯出 Excel 可直接開啟的 CSV 表格檔
+    function exportCSV() {
+      let history = JSON.parse(localStorage.getItem('0050_records_v2') || '[]');
+      if (history.length === 0) {
+        history = [getFullFormData()];
+      }
+
+      const headers = [
+        "評估時間", "診斷燈號結果",
+        "每月基本生活費(元)", "現金存款總額_含預備金(元)", "已知近期支出(元)", "每月穩定收入(元)", "預留緊急預備金(元)", "0050專用投資預算(元)",
+        ...Object.values(QUESTION_LABELS).map(q => q.title)
+      ];
+
+      const rows = history.map(item => {
+        const fin = item.財務數字明細;
+        const ans = item.問卷各題作答紀錄;
+        const qCols = Object.values(QUESTION_LABELS).map(q => {
+          const val = ans[q.title];
+          return Array.isArray(val) ? val.join(" ; ") : (val || "未作答");
+        });
+
+        return [
+          item.評估時間,
+          item.診斷燈號結果,
+          fin["每月基本生活費(元)"],
+          fin["可隨時動用現金存款總額_含預備金(元)"],
+          fin["已知近期支出(元)"],
+          fin["每月穩定收入(元)"],
+          fin["預留緊急預備金(元)"],
+          fin["0050專用投資預算(元)"],
+          ...qCols
+        ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(",");
+      });
+
+      // 加上 UTF-8 BOM 確保 Excel 開啟中文不亂碼
+      const csvContent = "﻿" + [headers.join(","), ...rows].join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `0050_完整評估紀錄_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    }
+  </script>
+</body>
+</html>
